@@ -315,8 +315,20 @@ function renderVariants(){
     const pPrice = document.getElementById('pPrice').value;
     const pDescription = document.getElementById('productDescription').value; 
 
-    if(!pName || !pPrice || variants.length === 0) return alert("أكمل بيانات المنتج");
-    
+if(!pName || !pPrice){
+    alert("أكمل اسم المنتج والسعر");
+    return;
+}
+
+if(hasVariants && variants.length === 0){
+    alert("أضف نوع واحد على الأقل");
+    return;
+}
+
+if(!hasVariants && !document.getElementById("simpleStock").value){
+    alert("أدخل الكمية المتاحة");
+    return;
+}    
     btn.innerText = "جاري الرفع..."; btn.disabled = true;
     
     try {
@@ -333,18 +345,21 @@ function renderVariants(){
         const selectedCategories = [];
         document.querySelectorAll('input[name="categories"]:checked').forEach(cb => selectedCategories.push(cb.value));
 
-        await addDoc(collection(db, "products"), {
-            name: pName, 
-            price: Number(pPrice), 
-            salePrice: Number(pPrice),
-            pDesc: pDescription, 
-            categories: selectedCategories, 
-    variants: hasVariants ? variants : [],
-            image: urls[0], 
-            allImages: urls, 
-            createdAt: new Date()
-        });
+       await addDoc(collection(db, "products"), {
+    name: pName,
+    price: Number(pPrice),
+    salePrice: Number(pPrice),
+    pDesc: pDescription,
+    categories: selectedCategories,
 
+    hasVariants: hasVariants,
+    variants: hasVariants ? variants : [],
+    stock: hasVariants ? 0 : Number(document.getElementById("simpleStock").value),
+
+    image: urls[0] || "",
+    allImages: urls,
+    createdAt: new Date()
+});
         alert("تم النشر بنجاح!"); 
         location.reload();
     } catch (err) {
