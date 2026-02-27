@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr.Ahmed Hafez Pharmacy | HOME</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Syncopate:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @media (max-width: 768px) {
+    header {
+        padding: 10px 3% !important; /* تقليل الحواف الجانبية */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        font-size: 18px !important; /* تصغير حجم كلمة ZORIN */
+        flex: 1;
+    }
+
+    header .icons {
+        display: flex;
+        gap: 10px; /* مسافة بين الأيقونات */
+        flex-shrink: 0; /* يمنع الأيقونات إنها تنكمش */
+    }
+
+    header i {
+        font-size: 18px !important; /* توحيد حجم الأيقونات */
+    }
+}
+.img-wrapper { position: relative; width: 100%; height: 400px; overflow: hidden; }
+.img-nav-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,0.9); border: none; 
+    width: 35px; height: 35px; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10; opacity: 0; transition: 0.3s;
+}
+.p-card:hover .img-nav-btn { opacity: 1; } /* الأسهم تظهر عند لمس الكارت */
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+        :root {
+            --bg: #ffffff;
+            --text: #000;
+            --border: #eeeeee;
+            --modal-bg: #111;
+            --sale: #e63946;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            transition: 0.3s;
+        }
+
+        header {
+            padding: 10px 5%;
+            border-bottom: 1px solid #f0f0f0;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 110px;
+        }
+
+        .brand-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            gap: 2px;
+        }
+
+        .brand-center img {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .brand-center .logo {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 4px;
+            font-weight: 700;
+            color: #000;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            font-size: 18px;
+            color: #000;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .user-name-nav {
+            font-size: 12px;
+            font-weight: bold;
+            font-family: 'Cairo';
+            max-width: 90px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #000;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -350px;
+            width: 300px;
+            height: 100%;
+            background: #fff;
+            z-index: 9999;
+            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        #userSidebar {
+            left: auto;
+            right: -350px;
+        }
+
+        #userSidebar.active {
+            right: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 9000;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        .side-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .side-section {
+            margin-bottom: 20px;
+        }
+
+        .section-label {
+            font-size: 10px;
+            color: #999;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .cat-btn {
+            padding: 10px 15px;
+            border: 1px solid #eee;
+            background: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.3s;
+            font-family: 'Cairo';
+            font-size: 13px;
+        }
+
+        .cat-btn.active,
+        .cat-btn:hover {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+
+        .cart-preview-box {
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+    .cart-badge {
+    background: #ff0000 !important;
+    color: white !important;
+    font-family: 'Arial', sans-serif !important; /* خط رفيع عشان الرقم يبان */
+    font-size: 10px !important; 
+    font-weight: bold !important;
+    
+    /* تحديد الحجم بشكل دائري تماماً */
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50% !important; /* دائرة كاملة */
+    
+    /* التموضع فوق الأيقونة */
+    position: absolute !important;
+    top: -8px !important; 
+    right: -8px !important;
+    
+    /* لمسات جمالية */
+    border: 1.5px solid #fff !important; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    padding: 0 !important; 
+    margin: 0 !important;
+    line-height: 0 !important; /* بيسنتر الرقم في نص الدائرة بالظبط */
+}
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding-bottom: 20px;
+        }
+
+        .set-item {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 12px 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            transition: 0.3s;
+        }
+
+        .order-card {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            border: 1px solid #eee;
+        }
+
+        .order-card b {
+            color: #000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .p-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            transition: 0.4s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .p-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .p-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .sale-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--sale);
+            color: #fff;
+            padding: 5px 12px;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 4px;
+            z-index: 2;
+        }
+
+        .product-price {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .old-price {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 0.9em;
+        }
+
+        .sale-price {
+            color: var(--sale);
+        }
+
+        .normal-price {
+            color: #000;
+        }
+
+        footer {
+            background: #000;
+            color: #fff;
+            padding: 50px 5% 30px;
+            margin-top: 50px;
+        }
+
+        .footer-top {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-about h3 {
+            font-family: 'Syncopate';
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-about p {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #ccc;
+        }
+
+        .accordion-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .acc-item {
+            border-bottom: 1px solid #222;
+        }
+
+        .acc-btn {
+            width: 100%;
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Cairo';
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .acc-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.3s ease-out;
+            font-size: 12px;
+            color: #aaa;
+            line-height: 1.5;
+            padding: 0 5px;
+        }
+
+        .acc-content p {
+            margin-bottom: 15px;
+        }
+
+        .acc-content b {
+            color: #fff;
+        }
+
+        .social-box {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-box a {
+            color: #fff;
+            font-size: 18px;
+            transition: 0.3s;
+        }
+
+        .copy {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 10px;
+            color: #555;
+            letter-spacing: 1px;
+        }
+
+        body.dark-mode {
+            background: #000;
+            color: #fff;
+        }
+
+        body.dark-mode header,
+        body.dark-mode .sidebar {
+            background: #000;
+            border-color: #222;
+        }
+
+        body.dark-mode .logo,
+        body.dark-mode .icon-btn,
+        body.dark-mode .close-btn,
+        body.dark-mode .cat-btn,
+        body.dark-mode .brand-name,
+        body.dark-mode .acc-btn,
+        body.dark-mode .user-name-nav {
+            color: #fff;
+        }
+
+        body.dark-mode .cat-btn,
+        body.dark-mode .set-item,
+        body.dark-mode .cart-preview-box,
+        body.dark-mode .order-card {
+            background: #111;
+            border-color: #222;
+            color: #fff;
+        }
+
+        body.dark-mode .p-card {
+            background: #111;
+            border-color: #222;
+        }
+
+        body.dark-mode .normal-price {
+            color: #fff;
+        }
+
+       @media (max-width: 768px) {
+    /* عرض منتجين في الصف الواحد بدل واحد */
+    #productsDisplay {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+        padding: 5px !important;
+    }
+
+    .p-card {
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    /* ضبط طول الصورة للموبايل */
+    .img-wrapper {
+        height: 180px !important; /* ده الارتفاع المثالي للموبايل */
+    }
+
+    .p-img {
+        height: 100% !important;
+        object-fit: cover; /* عشان الصورة متتمطش */
+    }
+
+    .p-info {
+        padding: 8px !important;
+    }
+
+    .p-info div {
+        font-size: 13px !important; /* تصغير الخط عشان مياخدش سطور كتير */
+    }
+}
+
+      #preloader {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 99999;
+    display: flex; justify-content: center; align-items: center;
+    background: transparent; overflow: hidden;
+}
+
+.shutter {
+    position: absolute;
+    top: 0; width: 50%; height: 100%;
+    background: #000;
+    transition: transform 1.1s cubic-bezier(0.9, 0, 0.1, 1);
+}
+.shutter.left { left: 0; border-right: 1px solid #111; }
+.shutter.right { right: 0; border-left: 1px solid #111; }
+
+.loader-core {
+    position: relative;
+    z-index: 100;
+    text-align: center;
+}
+
+.logo-wrapper {
+    position: relative;
+    width: 160px; height: 160px;
+    margin: 0 auto;
+}
+
+.snake-logo {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    /* حركة التعبان: بيلف وينبض */
+    animation: snakeAction 2.5s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.aura {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    border-radius: 50%;
+    background: #fff;
+    filter: blur(30px);
+    opacity: 0.2;
+    animation: auraPulse 1.5s infinite alternate;
+}
+
+.brand-text {
+    color: #fff;
+    font-family: 'Syncopate';
+    letter-spacing: 12px;
+    margin-top: 25px;
+    font-size: 1rem;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+/* --- الأنميشن الاحترافي --- */
+
+@keyframes snakeAction {
+    0% { transform: scale(1) rotate(0deg); filter: brightness(1); }
+    30% { transform: scale(1.1) rotate(10deg); filter: brightness(1.5); }
+    60% { transform: scale(0.95) rotate(-5deg); }
+    100% { transform: scale(1) rotate(360deg); filter: brightness(1); }
+}
+
+@keyframes auraPulse {
+    from { transform: scale(0.8); opacity: 0.1; }
+    to { transform: scale(1.3); opacity: 0.4; }
+}
+
+/* حركة الدخول للموقع */
+#preloader.loaded .shutter.left { transform: translateX(-100%); }
+#preloader.loaded .shutter.right { transform: translateX(100%); }
+
+#preloader.loaded .loader-core {
+    opacity: 0;
+    transform: scale(4) rotate(20deg); /* اللوجو بيلف ويطير في الشاشة */
+    filter: blur(20px);
+    transition: all 1s ease-in;
+}
+
+#preloader.loaded {
+    pointer-events: none;
+    visibility: hidden;
+    transition: visibility 0s 1.1s;
+}
+/* ستايل السلة الجانبية */
+.cart-drawer { 
+    position: fixed; top: 0; right: -400px; width: 350px; height: 100%; 
+    background: #fff; z-index: 10001; transition: 0.4s; padding: 20px; 
+    box-sizing: border-box; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+}
+.cart-drawer.open { right: 0; }
+.cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.cart-item { display: flex; gap: 10px; margin-bottom: 15px; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+.cart-item img { width: 60px; height: 80px; object-fit: cover; border-radius: 4px; }
+
+/* مودال إتمام الطلب */
+#checkoutModal { 
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+    background: #fff; padding: 25px; border-radius: 15px; z-index: 10005; 
+    display: none; width: 90%; max-width: 400px; box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+#checkoutModal input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+
+.overlay.active { display: block; z-index: 10000; background: rgba(0,0,0,0.5); position: fixed; top:0; left:0; width:100%; height:100%; }
+   /* توحيد شكل الـ Badge باللون الأحمر */
+.cart-badge {
+    background: #ff0000 !important; /* لون أحمر واضح */
+    color: white !important;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #fff; /* بيخلي الرقم يبرز عن الخلفية */
+}
+
+/* حركة الاهتزاز (Shake Animation) */
+@keyframes shakeCart {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.2) rotate(15deg); }
+    50% { transform: scale(1.2) rotate(-15deg); }
+    75% { transform: scale(1.2) rotate(15deg); }
+    100% { transform: scale(1); }
+}
+
+.shake-it {
+    animation: shakeCart 0.5s ease-in-out;
+}
+.product-card { position: relative; overflow: hidden; }
+.img-container { position: relative; width: 100%; height: 250px; }
+.img-container img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
+.img-nav { 
+    position: absolute; top: 50%; width: 100%; display: flex; 
+    justify-content: space-between; transform: translateY(-50%); opacity: 0; transition: 0.3s;
+}
+.product-card:hover .img-nav { opacity: 1; }
+.nav-btn { background: rgba(255,255,255,0.7); border: none; cursor: pointer; padding: 5px 8px; border-radius: 50%; }
+  /* إخفاء نص المستخدم في الهيدر نهائياً مع الحفاظ على الأيقونة */
+.user-name-nav {
+    display: none !important;
+}
+
+/* ضبط المسافات عشان الأيقونات متبقاش لازقة في بعضها بعد إخفاء النص */
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+/* حاوية الصور الأساسية */
+.product-images-slider {
+    display: flex;
+    overflow-x: auto; /* السماح بالسحب الأفقي */
+    scroll-snap-type: x mandatory; /* تثبيت الصورة في المنتصف بعد السحب */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* سحب ناعم على الآيفون */
+}
+
+.product-images-slider img {
+    min-width: 100%; /* كل صورة تاخد عرض الشاشة بالكامل */
+    scroll-snap-align: center;
+    object-fit: contain;
+    height: 400px;
+}
+
+/* إخفاء شريط التمرير البشع */
+.product-images-slider::-webkit-scrollbar {
+    display: none;
+}
+
+/* تعديل الأسهم لتظهر فوق الصور */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.7);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    z-index: 10;
+    display: flex; /* ستظهر تلقائياً */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+  </style>
+</head>
+
+<body>
+    <div id="preloader">
+        <div class="shutter left"></div>
+        <div class="shutter right"></div>
+        <div class="loader-core">
+            <div class="logo-wrapper">
+                <img src="logo.jpg.jpeg" alt="Dr.Ahmed Hafez Pharmacy" class="snake-logo">
+                <div class="aura"></div>
+            </div>
+            <h2 class="brand-text">Dr.Ahmed Hafez Pharmacy</h2>
+        </div>
+    </div>
+
+    <div id="overlay" class="overlay" onclick="closeAllSidebars()"></div>
+<div style="position: relative;">
+    <div class="product-images-slider" id="mainImageContainer">
+        </div>
+    <button class="slider-btn prev-btn" onclick="moveSlider(-1)"><i class="fas fa-chevron-left"></i></button>
+    <button class="slider-btn next-btn" onclick="moveSlider(1)"><i class="fas fa-chevron-right"></i></button>
+</div>
+  <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>عربة التسوق</h3>
+            <i class="fas fa-times close-cart" onclick="toggleCart(false)"></i>
+        </div>
+        <hr>
+        <div id="cartItemsList"></div>
+        <div id="cartTotal" style="font-weight: bold; margin: 20px 0;"></div>
+        <button class="btn-black" style="width:100%" onclick="openCheckout()">إتمام الطلب</button>
+    </div>
+
+   <div id="checkoutModal">
+    <h3>بيانات الشحن</h3>
+    <input type="text" id="custName" placeholder="الاسم بالكامل">
+    <input type="tel" id="custPhone" placeholder="رقم الموبايل (واتساب + مكالمات)">
+    <input type="text" id="custAddress" placeholder="العنوان بالتفصيل (المحافظة/المنطقة/الشارع)">
+
+    <!-- ===== حقل البروموكود ===== -->
+    <div style="margin: 15px 0;">
+        <label style="display:block; font-size:14px; color:#666; margin-bottom:5px;">كود الخصم</label>
+        <input type="text" id="checkoutPromoInput" placeholder="ادخل كود الخصم إن وجد" 
+            style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px; font-family:'Cairo'; margin-bottom:5px;">
+        <button id="checkoutApplyPromo" style="padding:8px 12px; background:#000; color:#fff; border:none; border-radius:6px; cursor:pointer;">تطبيق</button>
+        <div id="checkoutPromoMsg" style="font-size:13px; color:green; margin-top:3px;"></div>
+    </div>
+
+    <!-- السعر النهائي -->
+    <div style="font-weight:bold; font-size:16px; margin-bottom:15px;">
+        السعر الإجمالي: <span id="checkoutTotal">0 EGP</span>
+    </div>
+
+    <button class="btn-black" style="width:100%" id="confirmBtn" onclick="confirmOrder()">تأكيد الطلب</button>
+    <button class="btn-outline" style="width:100%; margin-top:10px; border:none;" onclick="closeCheckout()">إلغاء</button>
+</div>
+
+    <header>
+        <div class="nav-icons">
+            <div class="icon-btn" onclick="toggleSidebar('sidebar')"><i class="fas fa-bars"></i></div>
+        </div>
+        <div class="brand-center">
+            <img src="logo.jpg.jpeg" alt="Dr.Ahmed Hafez Pharmacy" onclick="location.href='index.html'">
+            <h1 class="logo" onclick="location.href='index.html'">Dr.Ahmed Hafez Pharmacy</h1>
+        </div>
+        <div class="nav-icons">
+           <div class="icon-btn" onclick="toggleCart(true)" style="position: relative; cursor: pointer; display: flex; align-items: center;">
+    <i class="fas fa-shopping-bag" style="font-size: 20px;"></i>
+    <span id="cartBadge" class="cart-badge">0</span>
+</div>
+            <div class="icon-btn" onclick="handleUserIcon()">
+                <span class="user-name-nav" id="navUserName">Login</span>
+                <i class="far fa-user"></i>
+            </div>
+        </div>
+    </header>
+
+    <div id="sidebar" class="sidebar">
+        <div class="side-header">
+            <span class="brand-name" style="font-family:'Syncopate'; font-weight:bold;">Pharmacy MENU</span>
+            <button class="close-btn" onclick="closeAllSidebars()">&times;</button>
+        </div>
+
+        <div class="side-section">
+            <label class="section-label">CATEGORIES</label>
+            <div class="category-list">
+                <button class="cat-btn active" onclick="filterCat('all', this)">All Products</button>
+                <button class="cat-btn" onclick="filterCat('skin care', this)">Skin Care</button>
+                <button class="cat-btn" onclick="filterCat('hair care', this)">Hair Care</button>
+                <button class="cat-btn" onclick="filterCat('vitamins', this)">Vitamins</button>
+                <button class="cat-btn" onclick="filterCat('body care', this)">Body Care</button>
+                <button class="cat-btn" onclick="filterCat('latest offers', this)">Latest Offers</button>
+            </div>
+        </div>
+
+    <div class="side-section">
+    <div class="cart-preview-box" onclick="toggleCart(true); closeAllSidebars();" style="position: relative; display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 15px; background: #f9f9f9; border-radius: 8px;">
+        <div>
+</div>
+</div>
+
+        <div class="side-footer" style="margin-top:auto; padding: 20px 0;">
+    <label class="section-label" style="display: block; text-align: center; margin-bottom: 15px; font-size: 10px; letter-spacing: 2px; color: #888;">PREFERENCES</label>
+    <div class="settings-grid" style="display: flex; justify-content: center;">
+        <button class="set-item mode-toggle-btn" onclick="toggleDarkMode()">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+</div>
+        </div>
+    </div>
+
+    <div id="userSidebar" class="sidebar">
+    <div class="side-header">
+        <span class="brand-name" style="font-family:'Syncopate'; font-weight:bold;">PROFILE</span>
+        <button class="close-btn" onclick="closeAllSidebars()">&times;</button>
+    </div>
+    
+    <div style="text-align: center; padding: 20px 0;">
+        <i class="fas fa-user-circle" style="font-size: 50px; color: #ddd; margin-bottom: 10px;"></i>
+        <h4 id="welcomeName">Hi, Guest</h4>
+        <p id="userEmailTxt" style="font-size:12px; color:#888"></p>
+    </div>
+
+    <div class="side-section" style="flex-grow: 1; overflow-y: auto;">
+        <label class="section-label">MY ORDERS</label>
+        <div id="ordersList">
+            <p style="font-size:12px; color:#999; text-align:center">No orders found.</p>
+        </div>
+    </div>
+
+    <div style="margin-top: auto;">
+        <button class="cat-btn" style="background:red; color:white; border:none; text-align:center;" onclick="confirmLogout()">
+            <i class="fas fa-sign-out-alt"></i> Log Out
+        </button>
+    </div>
+</div>
+
+<div id="overlay" class="overlay" onclick="closeAll()"></div>
+
+    <div class="container">
+        <div id="productsDisplay" class="products-grid"></div>
+    </div>
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-about">
+                <h3>ABOUT ZORIN</h3>
+                <p>ZORIN is a modern clothing brand built on simplicity, quality, and purpose. We believe that style is
+                    more than what you wear—it’s how you express confidence, strength, and identity.<br><br>
+                    Every ZORIN piece is carefully crafted to deliver comfort and a clean, timeless look.<br>
+                    <b>Don’t Lose Hope.</b>
+                </p>
+                <div class="social-box">
+                    <a href="https://www.instagram.com/zorin_streetwear_brand?igsh=MXhpaDBhbXdpb2pzaA%3D%3D&utm_source=qr"
+                        target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@zorin_streetwear_?_r=1&_t=ZS-92tyxxZrQNo" target="_blank"><i
+                            class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/201095901312" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="accordion-container">
+                <div class="acc-item">
+                    <button class="acc-btn" onclick="toggleAcc(this)">Privacy Policy <i
+                            class="fas fa-plus"></i></button>
+                    <div class="acc-content">
+                        <p>At ZORIN, your privacy is important to us. We collect only the information necessary to
+                            process your orders and improve your experience.<br><br>
+                            Your personal data is kept secure and will never be shared with third parties.</p>
+                    </div>
+                </div>
+                <div class="acc-item">
+                    <button class="acc-btn" onclick="toggleAcc(this)">Contact Us <i class="fas fa-plus"></i></button>
+                    <div class="acc-content">
+                        <p><b>📞: 01095901312</b><br>
+                            Business Hours: Saturday – Thursday | 10:00 AM – 6:00 PM</p>
+                    </div>
+                </div>
+                <div class="acc-item">
+                    <button class="acc-btn" onclick="toggleAcc(this)">Size Guide <i class="fas fa-plus"></i></button>
+                    <div class="acc-content">
+                        <p>Please refer to our size guide to find the perfect fit.</p>
+                    </div>
+                </div>
+                <div class="acc-item">
+                    <button class="acc-btn" onclick="toggleAcc(this)">FAQs <i class="fas fa-plus"></i></button>
+                    <div class="acc-content">
+                        <p>How long does shipping take? Orders are usually processed within 1–2 business days.</p>
+                    </div>
+                </div>
+                <div class="acc-item">
+                    <button class="acc-btn" onclick="toggleAcc(this)">Shipping & Returns <i
+                            class="fas fa-plus"></i></button>
+                    <div class="acc-content">
+                        <p>Returns or exchanges are accepted within 48 hours of delivery.</p>
+                    </div>
+                </div>
+                <div class="acc-item">
+                    <button class="acc-btn" onclick="toggleAcc(this)">Terms & Conditions <i
+                            class="fas fa-plus"></i></button>
+                    <div class="acc-content">
+                        <p>ZORIN reserves the right to update policies at any time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copy">© 2026 ZORIN STORE. ALL RIGHTS RESERVED.</div>
+    </footer>
+
+ <script type="module">
+    // 1. استيراد المكتبات المطلوبة من النسخة الجديدة
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, onSnapshot, query, orderBy, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    // 2. بيانات مشروع ZORIN STORE 2026 الجديد
+    const firebaseConfig = {
+       apiKey: "AIzaSyCoMyCieBtKvXMO24yPC8o5mmQOvoykAKI",
+        authDomain: "pharmacy-drahmed.firebaseapp.com",
+        projectId: "pharmacy-drahmed",
+        storageBucket: "pharmacy-drahmed.firebasestorage.app",
+        messagingSenderId: "980683934598",
+        appId: "1:980683934598:web:22e4d588be8662bca2ba07"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    let currentUser = null;
+
+    // --- نظام السلة الموحد ---
+let cart = JSON.parse(localStorage.getItem('zorin_cart')) || [];
+
+window.updateCartUI = () => {
+    // 1. حفظ البيانات
+    localStorage.setItem('zorin_cart', JSON.stringify(cart));
+
+    // 2. تحديث العدادات (البادج والسايدبار)
+    const badge = document.getElementById('cartBadge');
+    const sidebarCount = document.getElementById('cartCountSidebar');
+    if (badge) badge.innerText = cart.length;
+    if (sidebarCount) sidebarCount.innerText = cart.length;
+
+    // 3. قائمة المنتجات
+    const list = document.getElementById('cartItemsList');
+    if (list) {
+        if (cart.length === 0) {
+            list.innerHTML = `<p style="text-align:center; padding:20px; font-size:12px; color:#999;">العربة فارغة</p>`;
+        } else {
+            list.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <img src="${item.image}">
+                    <div style="flex-grow:1">
+                        <div style="font-size:14px; font-weight:bold;">${item.name}</div>
+                        <small>${item.color} | ${item.size} | x${item.qty}</small><br>
+                        <b>${(item.salePrice || item.price) * item.qty} EGP</b>
+                    </div>
+                    <i class="fas fa-trash" onclick="removeItem(${index})" style="color:red; cursor:pointer;"></i>
+                </div>
+            `).join('');
+        }
+    }
+
+    // 4. حساب الإجمالي
+    const total = cart.reduce((sum, item) => sum + (Number(item.salePrice || item.price) * Number(item.qty)), 0);
+    const totalEl = document.getElementById('cartTotal');
+    if (totalEl) totalEl.innerText = "الإجمالي: " + total + " EGP";
+
+    // 5. تصفير الكوبون عند التعديل (لحماية الحسابات)
+    window.discountPercent = 0;
+    window.appliedCodeName = "";
+    if(document.getElementById('checkoutPromoInput')) document.getElementById('checkoutPromoInput').value = "";
+    if(document.getElementById('checkoutPromoMsg')) document.getElementById('checkoutPromoMsg').innerText = "";
+
+    // 6. تحديث السعر النهائي في صفحة الدفع
+    const checkoutTotalEl = document.getElementById('checkoutTotal');
+    if (checkoutTotalEl) checkoutTotalEl.innerText = `${total} EGP`;
+};
+
+// ⚡ حل مشكلة السلة صفر: ربط الاسم القديم بالجديد ⚡
+window.updateCart = window.updateCartUI;
+
+// استدعاء الدالة فور تحميل الصفحة عشان السلة تظهر
+window.updateCartUI();
+window.removeItemFromCart = (index) => {
+    cart.splice(index, 1);
+    updateCartUI();
+};
+
+
+// تأكيد وظيفة الـ Toggle عشان السايد بار يفتحها
+window.toggleCart = (show) => {
+    const drawer = document.getElementById('cartDrawer');
+    const overlay = document.getElementById('overlay');
+    
+    if (show) {
+        // نقفل أي سايد بار مفتوح الأول
+        document.getElementById('sidebar').classList.remove('active');
+        document.getElementById('userSidebar').classList.remove('active');
+        
+        drawer.classList.add('open');
+        overlay.classList.add('show');
+        overlay.style.display = 'block'; // للتأكيد إن الأوفرلاي ظهر
+        window.updateCartUI();
+    } else {
+        drawer.classList.remove('open');
+        overlay.classList.remove('show');
+        overlay.style.display = 'none';
+    }
+};
+
+    window.removeItemFromCart = (index) => {
+        cart.splice(index, 1);
+        window.updateCartUI();
+    };
+
+    window.openCheckout = () => {
+        if (cart.length === 0) return alert("العربة فارغة");
+        document.getElementById('checkoutModal').style.display = 'block';
+        window.toggleCart(false);
+    };
+
+    window.closeCheckout = () => {
+        document.getElementById('checkoutModal').style.display = 'none';
+        document.getElementById('overlay').classList.remove('show');
+    };
+
+    window.confirmOrder = async () => {
+
+    const name = document.getElementById('custName').value;
+    const phone = document.getElementById('custPhone').value;
+    const addr = document.getElementById('custAddress').value;
+
+    if (!name || !phone || !addr) return alert("أكمل البيانات");
+
+    const btn = document.getElementById('confirmBtn');
+
+    const originalTotal = calculateTotal();
+
+    let discountValue = 0;
+    let promoUsed = null;
+    let promoType = null;
+    let promoValue = 0;
+
+    if (appliedPromoCode) {
+
+        promoUsed = document.getElementById('checkoutPromoInput').value.trim().toUpperCase() || null;
+        promoType = appliedPromoCode.discountType || null;
+        promoValue = Number(appliedPromoCode.discountValue) || 0;
+
+        if (promoType === "percentage") {
+            discountValue = (originalTotal * promoValue) / 100;
+        } 
+        else if (promoType === "fixed") {
+            discountValue = promoValue;
+        }
+
+        if (discountValue > originalTotal) {
+            discountValue = originalTotal;
+        }
+    }
+
+    const finalTotal = originalTotal - discountValue;
+
+    btn.innerText = "جاري التأكيد...";
+    btn.disabled = true;
+
+    try {
+
+        await addDoc(collection(db, "orders"), {
+            customer: {
+                name,
+                phone,
+                address: addr,
+                email: currentUser ? currentUser.email : "Guest"
+            },
+
+            items: cart,
+
+            originalTotal: originalTotal,
+            promoUsed: promoUsed || "None",
+            promoType: promoType || "None",
+            promoValue: promoValue || 0,
+            discountValue: discountValue || 0,
+            total: finalTotal,
+
+            status: "New",
+            createdAt: new Date()
+        });
+
+        alert("تم استلام طلبك بنجاح!");
+
+        cart = [];
+        localStorage.removeItem('zorin_cart');
+        window.updateCartUI();
+        window.closeCheckout();
+
+    } catch (error) {
+        console.error("Order Error:", error);
+        alert("حدث خطأ أثناء إرسال الطلب");
+        btn.innerText = "تأكيد الطلب";
+        btn.disabled = false;
+    }
+};
+
+  onAuthStateChanged(auth, async (user) => {
+    currentUser = user;
+    const navName = document.getElementById('navUserName');
+    
+    if (user) {
+        // 1. التحقق من هوية الأدمن (أهم خطوة)
+        if (user.email === "zorinstore2026@gmail.com") {
+            // لو أنت الأدمن وفاتح الصفحة الرئيسية، يبعتك فوراً للأدمن
+            window.location.href = 'admin.html';
+            return; // نوقف التنفيذ هنا عشان ميكملش باقي الكود
+        }
+
+        // 2. تحديث واجهة المستخدم للزبون العادي
+        const name = user.displayName || user.email.split('@')[0];
+        if(navName) navName.innerText = name;
+        
+        // لو عندك عناصر الترحيب في الـ Sidebar
+        const welcomeName = document.getElementById('welcomeName');
+        const userEmailTxt = document.getElementById('userEmailTxt');
+        if(welcomeName) welcomeName.innerText = "Hi, " + name;
+        if(userEmailTxt) userEmailTxt.innerText = user.email;
+
+        loadUserOrders(user.email);
+    } else {
+        if(navName) navName.innerText = "Login";
+    }
+});
+
+    // --- وظيفة جلب الطلبات (كودك الأصلي) ---
+    async function loadUserOrders(userEmail) {
+        const list = document.getElementById('ordersList');
+        if(!list) return;
+        try {
+            const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
+            const snap = await getDocs(q);
+            list.innerHTML = "";
+            let found = 0;
+            snap.forEach(doc => {
+                const order = doc.data();
+                const orderEmail = order.customer?.email || order.email;
+                if (orderEmail === userEmail) {
+                    found++;
+                    const date = order.createdAt?.toDate().toLocaleDateString('en-GB') || "Processing";
+                    list.innerHTML += `
+                        <div class="order-card" style="border-left: 4px solid #000;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                                <b>ID: #${doc.id.slice(0, 8)}</b>
+                                <span style="color:green; font-weight:bold;">${order.status || 'New'}</span>
+                            </div>
+                            <div style="font-size:11px; line-height:1.4;">
+                                📅 التاريخ: ${date}<br>
+                                💰 الإجمالي: ${order.total || 0} EGP
+                            </div>
+                        </div>`;
+                }
+            });
+            if (found === 0) list.innerHTML = `<p style="font-size:12px; color:#999; text-align:center">No orders found.</p>`;
+        } catch (err) { console.error(err); }
+    }
+
+    // --- وظائف الواجهة (كودك الأصلي) ---
+    window.handleUserIcon = () => {
+        if (currentUser) window.toggleSidebar('userSidebar');
+        else location.href = 'login.html';
+    };
+
+    window.toggleSidebar = (id) => {
+        document.getElementById(id).classList.add('active');
+        document.getElementById('overlay').classList.add('show');
+    };
+
+    window.closeAllSidebars = () => {
+        const sidebars = document.querySelectorAll('.sidebar');
+        sidebars.forEach(s => s.classList.remove('active'));
+        document.getElementById('overlay').classList.remove('show');
+        window.toggleCart(false);
+    };
+
+    // ربط الـ overlay بالوظيفة
+    document.getElementById('overlay').onclick = window.closeAllSidebars;
+
+    window.confirmLogout = () => {
+        if (confirm("Logout from ZORIN?")) signOut(auth).then(() => location.reload());
+    };
+
+ function renderProducts(snap) {
+    const display = document.getElementById('productsDisplay');
+    if(!display) return;
+    display.innerHTML = "";
+    
+    snap.forEach(doc => {
+        const p = doc.data();
+        const pid = doc.id;
+        const hasSale = p.salePrice && Number(p.salePrice) < Number(p.price);
+        const images = (p.allImages && p.allImages.length > 0) ? p.allImages : [p.image];
+        const imagesJson = JSON.stringify(images).replace(/"/g, '&quot;');
+
+        display.innerHTML += `
+            <div class="p-card" data-aos="fade-up" style="position:relative;"> 
+                ${hasSale ? '<span class="sale-badge">SALE</span>' : ''}
+                <div class="img-wrapper">
+                    <img src="${images[0]}" class="p-img" id="img-${pid}" onclick="location.href='product.html?id=${pid}'">
+                    
+                    ${images.length > 1 ? `
+                        <button class="img-nav-btn prev-btn" onclick="changeImage(event, '${pid}', ${imagesJson}, -1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="img-nav-btn next-btn" onclick="changeImage(event, '${pid}', ${imagesJson}, 1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    ` : ''}
+                </div>
+                <div class="p-info" onclick="location.href='product.html?id=${pid}'">
+                    <div style="font-weight:bold; margin-bottom:5px;">${p.name}</div>
+                    <div class="product-price">
+                        ${hasSale ? `<span class="old-price">${p.price} EGP</span>` : ''}
+                        <span class="${hasSale ? 'sale-price' : 'normal-price'}">${p.salePrice || p.price} EGP</span>
+                    </div>
+                </div>
+            </div>`;
+    });
+    // سطر مهم لتشغيل الأنيميشن بعد تحميل الصور
+    if(window.AOS) AOS.refresh(); 
+}
+  
+    window.filterCat = (cat, btn) => {
+        if (btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+        let q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+        if (cat !== 'all') q = query(collection(db, "products"), where("categories", "array-contains", cat));
+        onSnapshot(q, (snap) => renderProducts(snap));
+        window.closeAllSidebars();
+    };
+
+    window.toggleDarkMode = () => {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('zorin_theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+    };
+
+    window.toggleAcc = (btn) => {
+        const content = btn.nextElementSibling;
+        const icon = btn.querySelector('i');
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+            icon.classList.replace('fa-minus', 'fa-plus');
+        } else {
+            document.querySelectorAll('.acc-content').forEach(c => c.style.maxHeight = null);
+            document.querySelectorAll('.acc-btn i').forEach(i => i.classList.replace('fa-minus', 'fa-plus'));
+            content.style.maxHeight = content.scrollHeight + "px";
+            icon.classList.replace('fa-plus', 'fa-minus');
+        }
+    };
+
+    // التشغيل المبدئي
+    window.onload = () => {
+    const preloader = document.getElementById('preloader');
+    setTimeout(() => { if(preloader) preloader.classList.add('loaded'); }, 2000); 
+
+    // تشغيل الأنيميشن
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100
+    });
+
+    window.filterCat('all');
+    window.updateCartUI();
+};
+let checkoutDiscount = 0;
+let appliedPromoCode = null;
+let checkoutType = null; // "single" أو "cart"
+
+
+async function loadPromoCodes() {
+    const promoMap = {};
+    try {
+        const q = query(collection(db, "promoCodes"), orderBy("createdAt", "desc"));
+        const snap = await getDocs(q);
+        snap.forEach(docSnap => {
+            const promo = docSnap.data();
+            promoMap[promo.code.trim().toUpperCase()] = {
+                discountType: promo.discountType,
+                discountValue: promo.discountValue
+            };
+        });
+    } catch (err) {
+        console.error("Error loading promo codes:", err);
+    }
+    return promoMap;
+}
+
+function calculateTotal() {
+    let total = 0;
+
+    if (checkoutType === "single" && tempItem) {
+        // المنتج الفردي
+        const basePrice = Number(tempItem.salePrice || tempItem.price || 0);
+        total = basePrice * (tempItem.qty || 1);
+    } else {
+        // كل منتجات العربة
+        cart.forEach(item => {
+            total += Number(item.salePrice || item.price || 0) * Number(item.qty || 1);
+        });
+    }
+
+    return total;
+}
+
+
+function updateCheckoutTotal() {
+    let total = calculateTotal();
+    let finalTotal = total;
+    const msgElem = document.getElementById('checkoutPromoMsg');
+
+    if (appliedPromoCode) {
+        // فيه كوبون صحيح
+        if (appliedPromoCode.discountType === "percentage") {
+            const discount = total * appliedPromoCode.discountValue / 100;
+            finalTotal = total - discount;
+            msgElem.innerText = `تم خصم ${appliedPromoCode.discountValue}% (${discount.toFixed(2)} EGP). المبلغ المطلوب: ${finalTotal.toFixed(2)} EGP`;
+        } else if (appliedPromoCode.discountType === "fixed") {
+            const discount = appliedPromoCode.discountValue;
+            finalTotal = total - discount;
+            if(finalTotal < 0) finalTotal = 0;
+            msgElem.innerText = `تم خصم ${discount.toFixed(2)} EGP. المبلغ المطلوب: ${finalTotal.toFixed(2)} EGP`;
+        }
+    } else {
+        // مفيش كوبون صحيح → ما تمسحش الرسالة لو موجودة
+        if (!msgElem.innerText.includes("كود غير صالح")) {
+            msgElem.innerText = ""; // امسح الرسالة بس لو مش رسالة خطأ
+        }
+    }
+
+    document.getElementById('checkoutTotal').innerText = finalTotal.toFixed(2) + " EGP";
+}
+
+
+document.getElementById('checkoutApplyPromo').addEventListener('click', async () => {
+    const codeInput = document.getElementById('checkoutPromoInput').value.trim().toUpperCase();
+    const promoCodes = await loadPromoCodes();
+
+    const msgElem = document.getElementById('checkoutPromoMsg');
+
+    if (promoCodes[codeInput]) {
+        appliedPromoCode = promoCodes[codeInput];
+        msgElem.innerText = `تم تطبيق خصم ${appliedPromoCode.discountType === "percentage" ? appliedPromoCode.discountValue + "%" : appliedPromoCode.discountValue + " EGP"}`;
+    } else {
+        appliedPromoCode = null;
+        msgElem.innerText = "كود غير صالح"; // 🔹 خليها هنا قبل updateCheckoutTotal
+    }
+
+    updateCheckoutTotal(); // هنا السعر يتحدث بدون مسح الرسالة
+});
+
+
+function openCheckout(item = null, type = "single") {
+    tempItem = item;          // المنتج الفردي لو Buy Now
+    checkoutType = type;      // "single" أو "cart"
+    checkoutDiscount = 0;
+    appliedPromoCode = null;
+
+    document.getElementById('checkoutPromoInput').value = "";
+    document.getElementById('checkoutPromoMsg').innerText = "";
+    document.getElementById('checkoutModal').style.display = 'block';
+    document.getElementById('overlay').classList.add('active');
+
+    updateCheckoutTotal(); // تحديث الإجمالي بعد فتح الشحن
+}
+
+</script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 1000, // مدة الحركة (ثانية واحدة)
+    once: true,     // الحركة تحصل مرة واحدة وأنت نازل بس
+  });
+  // حط دي في آخر ملف index.html قبل قفلة الـ body مباشرة
+
+    window.changeImage = (event, productId, images, direction) => {
+        event.stopPropagation(); // عشان ما يفتحش صفحة المنتج
+        const imgElement = document.getElementById(`img-${productId}`);
+        if (!imgElement) return;
+
+        // نجيب المسار الحالي للصورة
+        let currentSrc = imgElement.src;
+        
+        // ندور على ترتيب الصورة الحالية في المصفوفة
+        let currentIndex = images.findIndex(img => currentSrc.includes(img));
+        
+        if (currentIndex === -1) currentIndex = 0;
+
+        // نحسب الصورة اللي عليها الدور
+        let nextIndex = (currentIndex + direction + images.length) % images.length;
+        
+        // تغيير الصورة مع تأثير خفيف
+        imgElement.style.opacity = '0.6';
+        imgElement.src = images[nextIndex];
+        setTimeout(() => {
+            imgElement.src = images[nextIndex];
+            imgElement.style.opacity = '1';
+        }, 100);
+    };
+    // داخل دالة loadProduct بعد الحصول على pData
+const slider = document.getElementById('mainImageContainer');
+slider.innerHTML = pData.images.map(img => `<img src="${img}" alt="product">`).join('');
+
+// دالة تحريك الأسهم
+window.moveSlider = (direction) => {
+    const slider = document.getElementById('mainImageContainer');
+    const scrollAmount = slider.clientWidth; // عرض الصورة الواحدة
+    slider.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+    });
+};
+
+
+</script>
+</body>
+
+</html>
